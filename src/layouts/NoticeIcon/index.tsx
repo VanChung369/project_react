@@ -111,7 +111,7 @@ const NoticeIconView: React.FC = () => {
   return (
     <NoticeIcon
       className={styles.action}
-      count={currentUser && currentUser.unreadCount}
+      count={currentUser && 2}
       onItemClick={(item) => {
         changeReadState(item.id!);
       }}

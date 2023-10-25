@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const { Sider } = Layout;
 import { PlusSquareOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import styles from './index.less';
-import { FormattedMessage, useNavigate, useParams } from '@umijs/max';
+import { FormattedMessage, useModel, useNavigate, useParams } from '@umijs/max';
 import CreateConversation from '../CreateConversation';
 
 export type SiderProps = {
@@ -13,7 +13,16 @@ export type SiderProps = {
 
 const SiderBar: React.FC<SiderProps> = ({ intl, conversation }) => {
   const navigate = useNavigate();
+  const { initialState } = useModel('@@initialState');
+  const { currentUser } = initialState || {};
   const { id } = useParams();
+
+  const getDisplayUser = (conversation: API.ConversationItem) => {
+    return conversation?.creator?.id === currentUser?.id
+      ? conversation?.recipient
+      : conversation?.creator;
+  };
+
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   return (
     <>
@@ -50,16 +59,17 @@ const SiderBar: React.FC<SiderProps> = ({ intl, conversation }) => {
           mode="inline"
           theme="dark"
           onClick={(info) => navigate(`/conversations/${info.key}`)}
-          defaultSelectedKeys={[id ? id : '1']}
+          defaultSelectedKeys={[id ? id : '']}
           items={conversation?.map((conversation, index) => ({
             key: conversation.id,
             icon: <Avatar size="large" icon={<UserOutlined />} />,
             label: (
               <>
-                <span className={styles.sider_bar_menu__name}>{conversation.name}</span>
-                <span className={styles.sider_bar_menu__lastMessage}>
-                  {conversation.lastMessage}
+                <span className={styles.sider_bar_menu__name}>
+                  {`${getDisplayUser(conversation)?.firstName} ${getDisplayUser(conversation)
+                    ?.lastName}`}
                 </span>
+                <span className={styles.sider_bar_menu__lastMessage}>this is message</span>
               </>
             ),
           }))}

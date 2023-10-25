@@ -1,17 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Content } from 'antd/es/layout/layout';
 import styles from './index.less';
-import { useParams } from '@umijs/max';
+import { useParams, useRequest } from '@umijs/max';
+import { getMessageConversationById } from '@/services/api/message';
+import MessageContainer from '../MessageContainer';
+import MessageInput from '../MessageInput';
 
 export type ContentProps = {
   intl?: any;
 };
 
 const ContentConversation: React.FC<ContentProps> = ({ intl }) => {
-  console.log('useParams', useParams());
+  const { id } = useParams();
+
+  const [messages, setMessages] = useState<API.MessageItem[]>([]);
+
+  const { data } = useRequest(
+    () => getMessageConversationById({ conversationId: id ? parseInt(id) : 1 }),
+    {
+      refreshDeps: [id],
+    },
+  );
+
+  useEffect(() => {
+    setMessages(data || []);
+  }, [data]);
+
   return (
     <Content className={styles.content}>
-      <div className={styles.contentChat}>content</div>
+      <MessageContainer messages={messages} setMessages={setMessages} />
+      <MessageInput />
     </Content>
   );
 };
