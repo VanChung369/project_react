@@ -49,7 +49,6 @@ const Login: React.FC = () => {
         id: 'pages.login.failure',
         defaultMessage: 'Login failed, please try again!',
       });
-      console.log(error);
       message.error(defaultLoginFailureMessage);
     }
   };

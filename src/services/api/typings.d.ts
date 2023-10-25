@@ -2,6 +2,13 @@
 /* eslint-disable */
 
 declare namespace API {
+  type User = {
+    id?: number;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+
   type CurrentUser = {
     id?: number;
     email?: string;
@@ -93,15 +100,32 @@ declare namespace API {
     type?: NoticeIconItemType;
   };
 
+  type ConversationItem = {
+    id: number;
+    creator?: User;
+    recipient?: User;
+  };
+
   type ConversationList = {
     data?: ConversationItem[];
     total?: number;
     success?: boolean;
   };
 
-  type ConversationItem = {
+  type MessageItem = {
     id: number;
-    name?: string;
-    lastMessage?: string;
+    content?: string;
+    createAt: string;
+    author?: User;
+  };
+
+  type MessageList = {
+    data?: MessageItem[];
+    total?: number;
+    success?: boolean;
+  };
+
+  type getMessageConversationByIdParams = {
+    conversationId?: number;
   };
 }

@@ -1,0 +1,27 @@
+@import '@/styles/variables';
+
+.messageInputContainer {
+  margin: 20px 20px 10px 20px;
+  background-color: antiquewhite;
+  .messageInput {
+    margin: unset;
+    :global {
+      .ant-form-item-control-input-content {
+        .ant-input {
+          background-color: @raisin-black;
+          border: none;
+          outline: none;
+          padding: 15px;
+          border-radius: unset;
+          font-size: 15px;
+
+          &::-webkit-scrollbar {
+            transition: width 0.3s ease-in-out;
+            width: 10px;
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

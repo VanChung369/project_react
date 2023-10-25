@@ -46,7 +46,6 @@ const CreateConversation: React.FC<CreateConversationProps> = ({
           },
         }}
         onFinish={async (values) => {
-          console.log(values);
           const defaultLoginSuccessMessage = intl.formatMessage({
             id: 'conversation.modal.succeess',
             defaultMessage: 'success!',
