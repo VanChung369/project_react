@@ -104,6 +104,7 @@ declare namespace API {
     id: number;
     creator?: User;
     recipient?: User;
+    createAt?: string;
   };
 
   type ConversationList = {
@@ -127,5 +128,13 @@ declare namespace API {
 
   type getMessageConversationByIdParams = {
     conversationId?: number;
+  };
+
+  type MessageEventPayload = {
+    id: number;
+    createAt: string;
+    conversation: ConversationItem;
+    author: User;
+    content: string;
   };
 }

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Content } from 'antd/es/layout/layout';
 import styles from './index.less';
 import { useParams, useRequest } from '@umijs/max';
 import { getMessageConversationById } from '@/services/api/message';
 import MessageContainer from '../MessageContainer';
 import MessageInput from '../MessageInput';
+import { SocketContext } from '@/context/socket';
 
 export type ContentProps = {
   intl?: any;
@@ -12,6 +13,7 @@ export type ContentProps = {
 
 const ContentConversation: React.FC<ContentProps> = ({ intl }) => {
   const { id } = useParams();
+  const socket = useContext(SocketContext);
 
   const [messages, setMessages] = useState<API.MessageItem[]>([]);
 
@@ -25,6 +27,19 @@ const ContentConversation: React.FC<ContentProps> = ({ intl }) => {
   useEffect(() => {
     setMessages(data || []);
   }, [data]);
+
+  useEffect(() => {
+    console.log('socket', socket);
+    socket.on('connected', () => console.log('connected'));
+    socket.on('onMessage', (payload: API.MessageEventPayload) => {
+      const { conversation, ...message } = payload;
+      setMessages((prev) => [message, ...prev]);
+    });
+    return () => {
+      socket.off('connected');
+      socket.off('onMessage');
+    };
+  }, []);
 
   return (
     <Content className={styles.content}>
