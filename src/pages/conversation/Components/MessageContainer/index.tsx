@@ -34,12 +34,12 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ messages, setMessag
       <InfiniteScroll
         dataLength={messages.length}
         next={loadMoreData}
-        hasMore={true}
+        hasMore={messages?.length < messages?.length}
         inverse={true}
-        height={'calc(100vh - 200px)'}
+        height={'calc(100vh - 160px)'}
         className={styles.infiniteScroll}
         style={{ display: 'flex', flexDirection: 'column-reverse' }}
-        loader={<Skeleton paragraph={{ rows: 1 }} active />}
+        loader={messages.length > 0 ? <Skeleton paragraph={{ rows: 1 }} active /> : ''}
         scrollableTarget="scrollableDiv"
       >
         {messages.map((item, index, arr) => {

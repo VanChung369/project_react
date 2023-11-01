@@ -1,7 +1,7 @@
 import { Outlet, useIntl } from '@umijs/max';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SiderBar from './Components/Sider';
-import { Layout } from 'antd';
+import { Layout, message } from 'antd';
 import HeaderConversation from './Components/Header';
 import { useRequest } from 'umi';
 import { getConversation } from '@/services/api/conversation';

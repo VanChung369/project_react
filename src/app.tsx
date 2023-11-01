@@ -12,6 +12,7 @@ import { default as Page404 } from './pages/exception/404';
 import { persistor, store } from './redux/store';
 import { errorConfig } from './utils/requestErrorConfig';
 import { PATH } from './constants/path';
+import { SocketContext, socket } from './context/socket';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -103,11 +104,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 
       return (
         <>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor} onBeforeLift={onBeforeLift(store)}>
-              {children}
-            </PersistGate>
-          </Provider>
+          <SocketContext.Provider value={socket}>
+            <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor} onBeforeLift={onBeforeLift(store)}>
+                {children}
+              </PersistGate>
+            </Provider>
+          </SocketContext.Provider>
           {isDev && (
             <SettingDrawer
               disableUrlParams
