@@ -56,15 +56,15 @@ const CreateConversation: React.FC<CreateConversationProps> = ({
       >
         <ProFormText
           width="lg"
-          name="recipient"
+          name="userName"
           placeholder=""
           label={intl.formatMessage({
-            id: 'conversation.modal.input.recipient',
-            defaultMessage: 'Recipient',
+            id: 'conversation.modal.input.userName',
+            defaultMessage: 'User name',
           })}
           tooltip={intl.formatMessage({
-            id: 'conversation.modal.input.recipient.tooltip',
-            defaultMessage: 'Send to recipient',
+            id: 'conversation.modal.input.userName.tooltip',
+            defaultMessage: 'Send to User Name',
           })}
         />
 

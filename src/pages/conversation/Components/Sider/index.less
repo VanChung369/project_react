@@ -29,16 +29,22 @@
   .sider_bar_menu {
     background-color: @raisin-black;
 
-    &__name {
+    &__name_default {
       display: block;
       height: 20px;
+      font-weight: 600;
+    }
+
+    &__name_custom {
+      display: block;
+      height: auto;
       font-weight: 600;
     }
 
     :global {
       .ant-menu-item {
         padding-left: 10px !important;
-        height: auto;
+        height: 60px;
         margin-bottom: 5px;
 
         .ant-avatar {

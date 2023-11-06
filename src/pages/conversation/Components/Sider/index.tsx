@@ -1,27 +1,42 @@
 import { Avatar, Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 const { Sider } = Layout;
 import { PlusSquareOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { FormattedMessage, useModel, useNavigate, useParams } from '@umijs/max';
 import CreateConversation from '../CreateConversation';
+import { SocketContext } from '@/context/socket';
 
 export type SiderProps = {
+  id?: string;
   intl?: any;
   conversation?: API.ConversationItem[];
 };
 
-const SiderBar: React.FC<SiderProps> = ({ intl, conversation }) => {
+const SiderBar: React.FC<SiderProps> = ({ id, intl, conversation }) => {
   const navigate = useNavigate();
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
-  const { id } = useParams();
+  const socket = useContext(SocketContext);
 
   const getDisplayUser = (conversation: API.ConversationItem) => {
     return conversation?.creator?.id === currentUser?.id
       ? conversation?.recipient
       : conversation?.creator;
   };
+
+  useEffect(() => {
+    socket.on('onConversation', (payload: any) => {
+      console.log('Received onConversation Event');
+      console.log(payload);
+    });
+
+    return () => {
+      socket.off('connected');
+      socket.off('onMessage');
+      socket.off('onConversation');
+    };
+  }, [id]);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   return (
@@ -60,19 +75,27 @@ const SiderBar: React.FC<SiderProps> = ({ intl, conversation }) => {
           theme="dark"
           onClick={(info) => navigate(`/conversations/${info.key}`)}
           defaultSelectedKeys={[id ? id : '']}
-          items={conversation?.map((conversation, index) => ({
-            key: conversation.id,
-            icon: <Avatar size="large" icon={<UserOutlined />} />,
-            label: (
-              <>
-                <span className={styles.sider_bar_menu__name}>
-                  {`${getDisplayUser(conversation)?.firstName} ${getDisplayUser(conversation)
-                    ?.lastName}`}
-                </span>
-                <span className={styles.sider_bar_menu__lastMessage}>this is message</span>
-              </>
-            ),
-          }))}
+          items={conversation?.map((conversation, index) => {
+            const lastMessageSent = conversation?.lastMessageSent?.content;
+            return {
+              key: conversation.id,
+              icon: <Avatar size="large" icon={<UserOutlined />} />,
+              label: (
+                <>
+                  <span
+                    className={
+                      lastMessageSent
+                        ? styles.sider_bar_menu__name_default
+                        : styles.sider_bar_menu__name_custom
+                    }
+                  >
+                    {`${getDisplayUser(conversation)?.lastName}`}
+                  </span>
+                  <span className={styles.sider_bar_menu__lastMessage}>{lastMessageSent}</span>
+                </>
+              ),
+            };
+          })}
         />
       </Sider>
     </>

@@ -1,7 +1,7 @@
-import { Outlet, useIntl } from '@umijs/max';
-import React, { useContext, useEffect, useState } from 'react';
+import { Outlet, useIntl, useParams } from '@umijs/max';
+import React, { useEffect, useState } from 'react';
 import SiderBar from './Components/Sider';
-import { Layout, message } from 'antd';
+import { Layout } from 'antd';
 import HeaderConversation from './Components/Header';
 import { useRequest } from 'umi';
 import { getConversation } from '@/services/api/conversation';
@@ -16,6 +16,7 @@ const waitTime = (time: number = 100) => {
 
 const Conversation: React.FC = () => {
   const intl = useIntl();
+  const { id } = useParams();
 
   const [conversation, setConversation] = useState<API.ConversationItem[]>([]);
   const { data } = useRequest(getConversation);
@@ -26,9 +27,15 @@ const Conversation: React.FC = () => {
 
   return (
     <Layout hasSider>
-      <SiderBar intl={intl} conversation={conversation} />
+      <SiderBar id={id} intl={intl} conversation={conversation} />
       <Layout>
-        <HeaderConversation />
+        {id ? (
+          <HeaderConversation
+            conversationAction={conversation.find((item) => item.id == parseInt(id!))}
+          />
+        ) : (
+          <></>
+        )}
         <Outlet />
       </Layout>
     </Layout>

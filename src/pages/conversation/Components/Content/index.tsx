@@ -29,7 +29,6 @@ const ContentConversation: React.FC<ContentProps> = ({ intl }) => {
   }, [data]);
 
   useEffect(() => {
-    console.log('socket', socket);
     socket.on('connected', () => console.log('connected'));
     socket.on('onMessage', (payload: API.MessageEventPayload) => {
       const { conversation, ...message } = payload;
@@ -44,7 +43,7 @@ const ContentConversation: React.FC<ContentProps> = ({ intl }) => {
   return (
     <Content className={styles.content}>
       <MessageContainer messages={messages} setMessages={setMessages} />
-      <MessageInput />
+      <MessageInput id={id} />
     </Content>
   );
 };
