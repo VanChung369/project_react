@@ -16,6 +16,7 @@ export default {
   dev: {
     '/api/': {
       target: REACT_APP_API_URL,
+      ws: true,
       changeOrigin: true,
     },
   },

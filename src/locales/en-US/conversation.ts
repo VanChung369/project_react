@@ -3,7 +3,7 @@ export default {
   'conversation.modal.title': 'Create A Conversation',
   'conversation.modal.button': 'Create Conversation',
   'conversation.modal.succeess': 'Create Conversation Successfully',
-  'conversation.modal.input.recipient': 'Recipient',
+  'conversation.modal.input.userName': 'User name',
   'conversation.modal.input.message': 'Message (optional)',
-  'conversation.modal.input.recipient.tooltip': 'Send to recipient',
+  'conversation.modal.input.userName.tooltip': 'Send to user name',
 };

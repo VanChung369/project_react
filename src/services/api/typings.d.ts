@@ -105,12 +105,18 @@ declare namespace API {
     creator?: User;
     recipient?: User;
     createAt?: string;
+    lastMessageSent?: any;
   };
 
   type ConversationList = {
     data?: ConversationItem[];
     total?: number;
     success?: boolean;
+  };
+
+  type CreateConversationParams = {
+    userName?: string;
+    message?: string;
   };
 
   type MessageItem = {
@@ -136,5 +142,14 @@ declare namespace API {
     conversation: ConversationItem;
     author: User;
     content: string;
+  };
+
+  type CreateMessageResult = {
+    status?: string;
+  };
+
+  type CreateMessageParams = {
+    conversationId?: number;
+    content?: string;
   };
 }

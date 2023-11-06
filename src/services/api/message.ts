@@ -12,3 +12,14 @@ export async function getMessageConversationById(
     options: options,
   });
 }
+
+export async function createMessageConversation(
+  body: API.CreateMessageParams,
+  options?: { [key: string]: any },
+) {
+  return api.post<API.CreateMessageResult>({
+    endpoint: '/api/messages',
+    body: body,
+    options: options,
+  });
+}
